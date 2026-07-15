@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marginalia — Digital Journal Platform</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ AUTH SCREEN ============ -->
+<section id="auth-screen" class="screen">
+  <div class="auth-blob blob-1"></div>
+  <div class="auth-blob blob-2"></div>
+  <div class="auth-wrap">
+    <div class="brand-mark">
+      <svg width="34" height="34" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 4 H28 C30 4 32 6 32 8 V36 L26 32 L20 36 L14 32 L8 36 V8 C8 6 10 4 8 4 Z" fill="var(--sage)" stroke="none"/>
+        <line x1="13" y1="14" x2="27" y2="14" stroke="#fff" stroke-width="1.4" opacity=".85"/>
+        <line x1="13" y1="19" x2="27" y2="19" stroke="#fff" stroke-width="1.4" opacity=".65"/>
+        <line x1="13" y1="24" x2="21" y2="24" stroke="#fff" stroke-width="1.4" opacity=".45"/>
+      </svg>
+      <span>Marginalia</span>
+    </div>
+
+    <div class="glass-card auth-card">
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign in</button>
+        <button class="auth-tab" data-tab="signup">Create account</button>
+      </div>
+
+      <form id="login-form" class="auth-form active">
+        <label class="float-field">
+          <input type="text" id="login-username" placeholder=" " required>
+          <span>Username</span>
+        </label>
+        <label class="float-field">
+          <input type="password" id="login-password" placeholder=" " required>
+          <span>Passphrase</span>
+        </label>
+        <p class="form-error" id="login-error"></p>
+        <button type="submit" class="btn-pill btn-primary">Open my journal</button>
+      </form>
+
+      <form id="signup-form" class="auth-form">
+        <label class="float-field">
+          <input type="text" id="signup-name" placeholder=" " required>
+          <span>Display name</span>
+        </label>
+        <label class="float-field">
+          <input type="text" id="signup-username" placeholder=" " required>
+          <span>Username</span>
+        </label>
+        <label class="float-field">
+          <input type="password" id="signup-password" placeholder=" " required>
+          <span>Passphrase</span>
+        </label>
+        <p class="form-error" id="signup-error"></p>
+        <button type="submit" class="btn-pill btn-primary">Begin journaling</button>
+      </form>
+
+      <p class="auth-note">🌿 Everything you write stays on this device. Nothing is ever sent anywhere.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP SCREEN ============ -->
+<section id="app-screen" class="screen">
+
+  <!-- Floating glass sidebar -->
+  <aside class="rail">
+    <div class="rail-brand">
+      <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 4 H28 C30 4 32 6 32 8 V36 L26 32 L20 36 L14 32 L8 36 V8 C8 6 10 4 8 4 Z" fill="var(--sage)"/>
+      </svg>
+    </div>
+    <nav class="rail-nav">
+      <button class="rail-btn active" data-view="entries" title="Home">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="rail-btn" data-view="calendar" title="Calendar">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+        <span>Calendar</span>
+      </button>
+      <button class="rail-btn" data-view="insights" title="Insights">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        <span>Insights</span>
+      </button>
+    </nav>
+    <div class="rail-bottom">
+      <button id="theme-toggle" class="rail-btn rail-icon" title="Toggle theme">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button id="logout-btn" class="rail-btn rail-icon" title="Log out">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile bottom tab bar -->
+  <nav class="tabbar">
+    <button class="tab-btn active" data-view="entries">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    </button>
+    <button class="tab-btn" data-view="calendar">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+    </button>
+    <button class="tab-btn" data-view="insights">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+    </button>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- ---- ENTRIES / DASHBOARD VIEW ---- -->
+    <div class="view active" id="view-entries">
+
+      <header class="welcome-block fade-in-up">
+        <div>
+          <h1 id="welcome-greeting">Good evening 🌿</h1>
+          <p class="welcome-date" id="welcome-date"></p>
+          <p class="welcome-quote" id="welcome-quote"></p>
+        </div>
+        <button id="new-entry-btn" class="btn-pill btn-primary btn-fab">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          New entry
+        </button>
+      </header>
+
+      <section class="stat-row fade-in-up delay-1" id="stat-row"></section>
+
+      <section class="content-grid fade-in-up delay-2">
+        <div class="entries-col">
+          <div class="section-head">
+            <h2>Your entries</h2>
+            <div class="search-float">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="search-input" placeholder="Search your thoughts…">
+            </div>
+          </div>
+
+          <div class="chip-row">
+            <div class="mood-filter-chips" id="mood-filter-chips"></div>
+          </div>
+          <div class="chip-row">
+            <div class="tag-filter-chips" id="tag-filter-chips">
+              <span class="empty-hint">No tags yet</span>
+            </div>
+          </div>
+          <div class="chip-row sort-row">
+            <select id="sort-select">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="longest">Longest entry</option>
+              <option value="alpha">Title A–Z</option>
+            </select>
+            <button id="export-btn" class="btn-ghost">Export</button>
+            <label class="btn-ghost import-label">
+              Import
+              <input type="file" id="import-input" accept="application/json" hidden>
+            </label>
+          </div>
+
+          <div class="entries-list" id="entries-list"></div>
+          <div class="empty-state" id="entries-empty">
+            <div class="empty-illustration">🌱</div>
+            <p>Your page is blank — for now.</p>
+            <p class="empty-sub">Start your first entry and this space will bloom with your own words.</p>
+            <button class="btn-pill btn-primary" onclick="document.getElementById('new-entry-btn').click()">Write your first entry</button>
+          </div>
+        </div>
+
+        <aside class="side-col">
+          <div class="glass-card mood-analytics-card">
+            <h3>Mood, this week</h3>
+            <div class="mini-mood-bars" id="mini-mood-bars"></div>
+          </div>
+          <div class="glass-card streak-card" id="streak-card">
+            <div class="streak-ring">
+              <svg viewBox="0 0 80 80" width="72" height="72">
+                <circle cx="40" cy="40" r="34" fill="none" stroke="var(--track)" stroke-width="7"/>
+                <circle id="streak-ring-fill" cx="40" cy="40" r="34" fill="none" stroke="url(#streakGrad)" stroke-width="7" stroke-linecap="round" stroke-dasharray="214" stroke-dashoffset="214" transform="rotate(-90 40 40)"/>
+                <defs>
+                  <linearGradient id="streakGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="var(--gold)"/>
+                    <stop offset="100%" stop-color="var(--sage)"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span id="streak-number">0</span>
+            </div>
+            <p id="streak-text">Start today to begin a streak.</p>
+          </div>
+        </aside>
+      </section>
+    </div>
+
+    <!-- ---- CALENDAR VIEW ---- -->
+    <div class="view" id="view-calendar">
+      <header class="section-head page-head">
+        <h1>Calendar</h1>
+      </header>
+      <div class="glass-card calendar-panel fade-in-up">
+        <div class="calendar-header">
+          <button id="cal-prev" class="icon-btn-round">‹</button>
+          <h2 id="cal-title">Month</h2>
+          <button id="cal-next" class="icon-btn-round">›</button>
+        </div>
+        <div class="calendar-grid" id="calendar-grid"></div>
+      </div>
+    </div>
+
+    <!-- ---- INSIGHTS VIEW ---- -->
+    <div class="view" id="view-insights">
+      <header class="section-head page-head">
+        <h1>Insights</h1>
+      </header>
+      <div class="insights-panel">
+        <div class="stat-cards fade-in-up" id="stat-cards"></div>
+        <div class="glass-card insight-block fade-in-up delay-1">
+          <h3>Mood distribution</h3>
+          <div class="mood-bars" id="mood-bars"></div>
+        </div>
+        <div class="glass-card insight-block fade-in-up delay-1">
+          <h3>Most used tags</h3>
+          <div class="tag-cloud" id="tag-cloud"></div>
+        </div>
+        <div class="glass-card insight-block fade-in-up delay-2">
+          <h3>Writing activity — last 12 weeks</h3>
+          <div class="heatmap" id="heatmap"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</section>
+
+<!-- ============ ENTRY EDITOR MODAL ============ -->
+<div class="modal-overlay" id="editor-overlay">
+  <div class="modal editor-modal">
+    <div class="modal-header">
+      <input type="text" id="entry-title" class="title-input" placeholder="Give today a headline…" required>
+      <button class="icon-btn-round" id="editor-close">✕</button>
+    </div>
+
+    <form id="entry-form">
+      <input type="hidden" id="entry-id">
+
+      <div class="editor-meta-row">
+        <label class="pill-field">
+          <span>Date</span>
+          <input type="date" id="entry-date" required>
+        </label>
+        <label class="pill-field">
+          <span>Tags</span>
+          <input type="text" id="entry-tags" placeholder="work, travel…">
+        </label>
+      </div>
+
+      <div class="mood-picker" id="mood-picker"></div>
+      <input type="hidden" id="entry-mood" value="neutral">
+
+      <div class="editor-toolbar">
+        <button type="button" class="tb-btn" data-cmd="bold" title="Bold"><b>B</b></button>
+        <button type="button" class="tb-btn" data-cmd="italic" title="Italic"><i>i</i></button>
+        <button type="button" class="tb-btn" data-cmd="underline" title="Underline"><u>U</u></button>
+        <span class="tb-sep"></span>
+        <label class="tb-btn tb-file" title="Attach photo">
+          📎
+          <input type="file" id="entry-image" accept="image/*" hidden>
+        </label>
+        <span class="save-indicator" id="save-indicator">
+          <span class="save-dot"></span> Saved
+        </span>
+      </div>
+
+      <div class="paper-editor">
+        <textarea id="entry-content" placeholder="Write freely — no one else can read this." required></textarea>
+      </div>
+
+      <img id="entry-image-preview" class="image-preview" hidden>
+      <button type="button" id="remove-image-btn" class="btn-text" hidden>Remove photo</button>
+
+      <div class="editor-footer">
+        <div class="editor-metrics">
+          <span id="word-count">0 words</span>
+          <span class="metric-dot">·</span>
+          <span id="char-count">0 characters</span>
+          <span class="metric-dot">·</span>
+          <span id="read-time">0 min read</span>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="editor-cancel">Cancel</button>
+          <button type="submit" class="btn-pill btn-primary">Save entry</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ ENTRY VIEW MODAL ============ -->
+<div class="modal-overlay" id="view-overlay">
+  <div class="modal view-modal">
+    <div class="modal-header">
+      <h2 id="view-entry-title">Title</h2>
+      <button class="icon-btn-round" id="view-close">✕</button>
+    </div>
+    <div class="view-meta">
+      <span id="view-entry-date"></span>
+      <span id="view-entry-mood" class="mood-pill"></span>
+      <span id="view-entry-readtime" class="mood-pill"></span>
+    </div>
+    <div class="view-tags" id="view-entry-tags"></div>
+    <img id="view-entry-image" class="image-preview" hidden>
+    <p class="view-content" id="view-entry-content"></p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="view-delete-btn">Delete</button>
+      <button class="btn-pill btn-primary" id="view-edit-btn">Edit entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CONFIRM DIALOG ============ -->
+<div class="modal-overlay" id="confirm-overlay">
+  <div class="modal confirm-modal">
+    <p id="confirm-message">Are you sure?</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="confirm-cancel">Cancel</button>
+      <button class="btn-pill btn-danger" id="confirm-ok">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
